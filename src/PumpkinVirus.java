@@ -14,7 +14,7 @@ public class PumpkinVirus extends Plugin {
     //Name the Plugin
     private String name = "PumpkinVirus";
     //Plugin Version (a = minor change, b = moderate, +0.1 = major
-    private String version = "0.4b";
+    private String version = "0.5";
 
     public boolean currentCondition = true;
 
@@ -64,6 +64,40 @@ public class PumpkinVirus extends Plugin {
         broadcast(message);
         previousCondition = currentCondition;
     }
+
+    public void pumpkinSpread(Block blockPlaced){
+        while(currentCondition == true){
+            Random randomGenerator = new Random();
+            int randX = randomGenerator.nextInt(2);
+            int randY = randomGenerator.nextInt(2);
+            int randZ = randomGenerator.nextInt(2);
+            int newX = 0;
+            int newY = 0;
+            int newZ = 0;
+
+            if(randX == 0){
+                newX = blockPlaced.getX() - 1;
+            }
+            else{
+                newX = blockPlaced.getX() + 1;
+            }
+            if(randY == 0){
+                newY = blockPlaced.getX() - 1;
+            }
+            else{
+                newY = blockPlaced.getX() + 1;
+            }
+            if(randZ == 0){
+                newZ = blockPlaced.getX() - 1;
+            }
+            else{
+                newZ = blockPlaced.getX() + 1;
+            }
+            Block newBlock = new Block(86, newX, newY, newZ);
+            etc.getServer().setBlock(newBlock);
+            pumpkinSpread(newBlock);
+        }
+    }
 /*
     public void checkForSpace(Block blockPlaced){
     }
@@ -109,19 +143,8 @@ public class PumpkinVirus extends Plugin {
         */
 
         public boolean onBlockCreate(Player player, Block blockPlaced, Block blockClicked, int itemInHand){
-            if(currentCondition == true){
-                if(itemInHand == 86){
-                    Random randomGenerator = new Random();
-                    int randomX = randomGenerator.nextInt(2);
-                    int randomY = randomGenerator.nextInt(2);
-                    int randomZ = randomGenerator.nextInt(2);
-
-                    int newX = blockPlaced.getX() + randomX;
-                    int newY = blockPlaced.getY() + randomY;
-                    int newZ = blockPlaced.getZ() + randomZ;
-                    Block newBlock = new Block(86, newX, newY, newZ);
-                    etc.getServer().setBlock(newBlock);
-                }
+            if(itemInHand == 86){
+                pumpkinSpread(blockPlaced);
             }
             return false;
         }
