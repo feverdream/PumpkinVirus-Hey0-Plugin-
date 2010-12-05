@@ -8,7 +8,7 @@ public class PumpkinVirus extends Plugin {
     private Listener l = new Listener(this);
     protected static final Logger log = Logger.getLogger("Minecraft");
     private String name = "PumpkinVirus";
-    private String version = "0.2";
+    private String version = "0.3a";
 
     public void enable() {
     }
@@ -23,7 +23,7 @@ public class PumpkinVirus extends Plugin {
         etc.getLoader().addListener( PluginLoader.Hook.BLOCK_CREATED, l, this, PluginListener.Priority.MEDIUM);
         //etc.getLoader().addListener( PluginLoader.Hook.BLOCK_DESTROYED, l, this, PluginListener.Priority.MEDIUM);
         //etc.getLoader().addListener( PluginLoader.Hook.CHAT, l, this, PluginListener.Priority.MEDIUM);
-        //etc.getLoader().addListener( PluginLoader.Hook.COMMAND, l, this, PluginListener.Priority.MEDIUM);
+        etc.getLoader().addListener( PluginLoader.Hook.COMMAND, l, this, PluginListener.Priority.MEDIUM);
         //etc.getLoader().addListener( PluginLoader.Hook.COMPLEX_BLOCK_CHANGE, l, this, PluginListener.Priority.MEDIUM);
         //etc.getLoader().addListener( PluginLoader.Hook.COMPLEX_BLOCK_SEND, l, this, PluginListener.Priority.MEDIUM);
         //etc.getLoader().addListener( PluginLoader.Hook.DISCONNECT, l, this, PluginListener.Priority.MEDIUM);
@@ -42,6 +42,18 @@ public class PumpkinVirus extends Plugin {
     public void broadcast(String message) {
         for (Player p : etc.getServer().getPlayerList()) {
         p.sendMessage(message);
+        }
+    }
+
+    public void checkForSpace(Block blockPlaced){
+    }
+
+    public void startSpread(){
+    }
+
+    public void onBlockCreate(Player player, Block blockPlaced, Block blockClicked, int itemInHand){
+        if(blockPlaced.getType() == 91){
+            checkForSpace(blockPlaced);
         }
     }
 
