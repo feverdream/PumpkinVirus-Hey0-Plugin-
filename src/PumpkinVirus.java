@@ -14,7 +14,11 @@ public class PumpkinVirus extends Plugin {
     //Name the Plugin
     private String name = "PumpkinVirus";
     //Plugin Version (a = minor change, b = moderate, +0.1 = major
-    private String version = "0.4a";
+    private String version = "0.4b";
+
+    public boolean currentCondition = true;
+
+    public boolean previousCondition = true;
 
     //Figure out what this does?
     public void enable() {
@@ -37,11 +41,28 @@ public class PumpkinVirus extends Plugin {
         etc.getLoader().addListener( PluginLoader.Hook.SERVERCOMMAND, listener, this, PluginListener.Priority.MEDIUM);
     }
 
-    // Sends a message to all players!
     public void broadcast(String message) {
         for (Player p : etc.getServer().getPlayerList()) {
-        p.sendMessage(message);
+            p.sendMessage(message);
         }
+    }
+
+    public void pumpkinvirus() {
+        if(previousCondition == true){
+            currentCondition = false;
+        }
+        else{
+            currentCondition = true;
+        }
+        String message = "";
+        if(currentCondition == true){
+            message = "VIRUS ENABLED";
+        }
+        else{
+            message = "VIRUS DISABLED";
+        }
+        broadcast(message);
+        previousCondition = currentCondition;
     }
 /*
     public void checkForSpace(Block blockPlaced){
@@ -86,18 +107,21 @@ public class PumpkinVirus extends Plugin {
         return null;
         }
         */
-        public boolean onBlockCreate(Player player, Block blockPlaced, Block blockClicked, int itemInHand){
-            if(itemInHand == 86){
-                Random randomGenerator = new Random();
-                int randomX = randomGenerator.nextInt(2);
-                int randomY = randomGenerator.nextInt(2);
-                int randomZ = randomGenerator.nextInt(2);
 
-                int newX = blockPlaced.getX() + randomX;
-                int newY = blockPlaced.getY() + randomY;
-                int newZ = blockPlaced.getZ() + randomZ;
-                Block newBlock = new Block(86, newX, newY, newZ);
-                etc.getServer().setBlock(newBlock);
+        public boolean onBlockCreate(Player player, Block blockPlaced, Block blockClicked, int itemInHand){
+            if(currentCondition == true){
+                if(itemInHand == 86){
+                    Random randomGenerator = new Random();
+                    int randomX = randomGenerator.nextInt(2);
+                    int randomY = randomGenerator.nextInt(2);
+                    int randomZ = randomGenerator.nextInt(2);
+
+                    int newX = blockPlaced.getX() + randomX;
+                    int newY = blockPlaced.getY() + randomY;
+                    int newZ = blockPlaced.getZ() + randomZ;
+                    Block newBlock = new Block(86, newX, newY, newZ);
+                    etc.getServer().setBlock(newBlock);
+                }
             }
             return false;
         }
@@ -121,11 +145,12 @@ public class PumpkinVirus extends Plugin {
         }
         */
 
-        /*
         public boolean onCommand(Player player, String[] split) {
-        return false;
+            if (split[0].equals("/pumpkinvirus") && player.canUseCommand("/pumpkinvirus")) {
+               pumpkinvirus();
+            }
+            return false;
         }
-        */
 
         /*
         public boolean onConsoleCommand(String[] split) {
