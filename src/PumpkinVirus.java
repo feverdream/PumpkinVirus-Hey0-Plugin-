@@ -14,7 +14,7 @@ public class PumpkinVirus extends Plugin {
     //Name the Plugin
     private String name = "PumpkinVirus";
     //Plugin Version (+1 = major, +0.1 = moderate, +0.0.1 = minor)
-    private String version = "0.5.1";
+    private String version = "0.5.3";
 
     public boolean currentCondition = true;
 
@@ -66,35 +66,39 @@ public class PumpkinVirus extends Plugin {
     public void pumpkinSpread(Block blockPlaced){
         if(currentCondition == true){
             Random randomGenerator = new Random();
-            int randX = randomGenerator.nextInt(2);
-            int randY = randomGenerator.nextInt(2);
-            int randZ = randomGenerator.nextInt(2);
 
-            int newX = 0;
-            int newY = 0;
-            int newZ = 0;
+            int randX = randomGenerator.nextInt(2); // initialize first element
+            int randY = randomGenerator.nextInt(2); // initialize second element
+            int randZ = randomGenerator.nextInt(2); // etc.
+            
+            int newX;
+            int newY;
+            int newZ;
 
-            if(randX == 0){
-                newX = blockPlaced.getX() - 1;
+            boolean dirX = randomGenerator.nextBoolean();
+            boolean dirY = randomGenerator.nextBoolean();
+            boolean dirZ = randomGenerator.nextBoolean();
+
+            if(dirX == true){
+                newX = blockPlaced.getX() + randX;
             }
             else{
-                newX = blockPlaced.getX() + 1;
+                newX = blockPlaced.getX() - randX;
             }
-            if(randY == 0){
-                newY = blockPlaced.getX() - 1;
-            }
-            else{
-                newY = blockPlaced.getX() + 1;
-            }
-            if(randZ == 0){
-                newZ = blockPlaced.getX() - 1;
+            if(dirY == true){
+                newY = blockPlaced.getY() + randY;
             }
             else{
-                newZ = blockPlaced.getX() + 1;
+                newY = blockPlaced.getY() - randY;
+            }
+            if(dirZ == true){
+                newZ = blockPlaced.getZ() + randZ;
+            }
+            else{
+                newZ = blockPlaced.getZ() - randZ;
             }
             Block newBlock = new Block(86, newX, newY, newZ);
             etc.getServer().setBlock(newBlock);
-            pumpkinSpread(newBlock);
         }
     }
 
