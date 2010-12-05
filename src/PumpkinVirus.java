@@ -14,7 +14,7 @@ public class PumpkinVirus extends Plugin {
     //Name the Plugin
     private String name = "PumpkinVirus";
     //Plugin Version (+1 = major, +0.1 = moderate, +0.0.1 = minor)
-    private String version = "0.5.3";
+    private String version = "0.5.4";
 
     public boolean currentCondition = true;
 
@@ -64,8 +64,9 @@ public class PumpkinVirus extends Plugin {
     }
 
     public void pumpkinSpread(Block blockPlaced){
-        if(currentCondition == true){
+        while(currentCondition == true){
             Random randomGenerator = new Random();
+            int waitTime = 10000;
 
             int randX = randomGenerator.nextInt(2); // initialize first element
             int randY = randomGenerator.nextInt(2); // initialize second element
@@ -99,6 +100,7 @@ public class PumpkinVirus extends Plugin {
             }
             Block newBlock = new Block(86, newX, newY, newZ);
             etc.getServer().setBlock(newBlock);
+            pumpkinSpread(newBlock);
         }
     }
 
