@@ -2,13 +2,13 @@ import java.util.logging.Logger;
 
 /**
 *
-* @author Nijiko
+* @author Indivisible0
 */
 public class PumpkinVirus extends Plugin {
     private Listener l = new Listener(this);
     protected static final Logger log = Logger.getLogger("Minecraft");
     private String name = "PumpkinVirus";
-    private String version = "0.1";
+    private String version = "0.2";
 
     public void enable() {
     }
@@ -17,10 +17,10 @@ public class PumpkinVirus extends Plugin {
     }
 
     public void initialize() {
-        log.info(name + " " + version + " initialized");
+        log.info(name + " " + version + " by Indivisible0 initialized");
         // Uncomment as needed.
         //etc.getLoader().addListener( PluginLoader.Hook.ARM_SWING, l, this, PluginListener.Priority.MEDIUM);
-        //etc.getLoader().addListener( PluginLoader.Hook.BLOCK_CREATED, l, this, PluginListener.Priority.MEDIUM);
+        etc.getLoader().addListener( PluginLoader.Hook.BLOCK_CREATED, l, this, PluginListener.Priority.MEDIUM);
         //etc.getLoader().addListener( PluginLoader.Hook.BLOCK_DESTROYED, l, this, PluginListener.Priority.MEDIUM);
         //etc.getLoader().addListener( PluginLoader.Hook.CHAT, l, this, PluginListener.Priority.MEDIUM);
         //etc.getLoader().addListener( PluginLoader.Hook.COMMAND, l, this, PluginListener.Priority.MEDIUM);
