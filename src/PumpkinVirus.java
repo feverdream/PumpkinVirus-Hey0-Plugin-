@@ -1,41 +1,40 @@
 import java.util.logging.Logger;
+import java.util.Random;
 
 /**
 *
 * @author Indivisible0
 */
+//Declare the main class
 public class PumpkinVirus extends Plugin {
-    private Listener l = new Listener(this);
+    //This is used to listen for events
+    private Listener listener = new Listener(this);
+    //Create a new logger?
     protected static final Logger log = Logger.getLogger("Minecraft");
+    //Name the Plugin
     private String name = "PumpkinVirus";
-    private String version = "0.3a";
+    //Plugin Version (a = minor change, b = moderate, +0.1 = major
+    private String version = "0.4";
 
+    //Figure out what this does?
     public void enable() {
     }
 
+    //And this
     public void disable() {
     }
 
+    //Initializes the plugin(Possibly a constructor?)
     public void initialize() {
         log.info(name + " " + version + " by Indivisible0 initialized");
-        // Uncomment as needed.
-        //etc.getLoader().addListener( PluginLoader.Hook.ARM_SWING, l, this, PluginListener.Priority.MEDIUM);
-        etc.getLoader().addListener( PluginLoader.Hook.BLOCK_CREATED, l, this, PluginListener.Priority.MEDIUM);
-        //etc.getLoader().addListener( PluginLoader.Hook.BLOCK_DESTROYED, l, this, PluginListener.Priority.MEDIUM);
-        //etc.getLoader().addListener( PluginLoader.Hook.CHAT, l, this, PluginListener.Priority.MEDIUM);
-        etc.getLoader().addListener( PluginLoader.Hook.COMMAND, l, this, PluginListener.Priority.MEDIUM);
+        etc.getLoader().addListener( PluginLoader.Hook.BLOCK_CREATED, listener, this, PluginListener.Priority.MEDIUM);
+        etc.getLoader().addListener( PluginLoader.Hook.COMMAND, listener, this, PluginListener.Priority.MEDIUM);
         //etc.getLoader().addListener( PluginLoader.Hook.COMPLEX_BLOCK_CHANGE, l, this, PluginListener.Priority.MEDIUM);
         //etc.getLoader().addListener( PluginLoader.Hook.COMPLEX_BLOCK_SEND, l, this, PluginListener.Priority.MEDIUM);
-        //etc.getLoader().addListener( PluginLoader.Hook.DISCONNECT, l, this, PluginListener.Priority.MEDIUM);
-        //etc.getLoader().addListener( PluginLoader.Hook.INVENTORY_CHANGE, l, this, PluginListener.Priority.MEDIUM);
-        //etc.getLoader().addListener( PluginLoader.Hook.IPBAN, l, this, PluginListener.Priority.MEDIUM);
-        //etc.getLoader().addListener( PluginLoader.Hook.KICK, l, this, PluginListener.Priority.MEDIUM);
-        etc.getLoader().addListener( PluginLoader.Hook.LOGIN, l, this, PluginListener.Priority.MEDIUM);
-        //etc.getLoader().addListener( PluginLoader.Hook.LOGINCHECK, l, this, PluginListener.Priority.MEDIUM);
+        etc.getLoader().addListener( PluginLoader.Hook.LOGIN, listener, this, PluginListener.Priority.MEDIUM);
         //etc.getLoader().addListener( PluginLoader.Hook.NUM_HOOKS, l, this, PluginListener.Priority.MEDIUM);
-        //etc.getLoader().addListener( PluginLoader.Hook.PLAYER_MOVE, l, this, PluginListener.Priority.MEDIUM);
-        //etc.getLoader().addListener( PluginLoader.Hook.SERVERCOMMAND, l, this, PluginListener.Priority.MEDIUM);
-        //etc.getLoader().addListener( PluginLoader.Hook.TELEPORT, l, this, PluginListener.Priority.MEDIUM);
+        etc.getLoader().addListener( PluginLoader.Hook.PLAYER_MOVE, listener, this, PluginListener.Priority.MEDIUM);
+        etc.getLoader().addListener( PluginLoader.Hook.SERVERCOMMAND, listener, this, PluginListener.Priority.MEDIUM);
     }
 
     // Sends a message to all players!
@@ -44,18 +43,21 @@ public class PumpkinVirus extends Plugin {
         p.sendMessage(message);
         }
     }
-
+/*
     public void checkForSpace(Block blockPlaced){
     }
 
-    public void startSpread(){
-    }
+    public void startSpread(Block pumpkinBlock){
+        //Creates a Jacko (92) block
+        
 
-    public void onBlockCreate(Player player, Block blockPlaced, Block blockClicked, int itemInHand){
-        if(blockPlaced.getType() == 91){
-            checkForSpace(blockPlaced);
-        }
+        Change the block type to fire and add 1 to the Y coordinate to put it above the TNT:
+        yourBlock.setType(51);
+        int newY = yourBlock.getY() + 1;
+        yourBlock.setY(newY);
+        etc.getServer().setBlock(yourBlock);
     }
+*/
 
     public class Listener extends PluginListener {
         PumpkinVirus p;
@@ -84,6 +86,21 @@ public class PumpkinVirus extends Plugin {
         return null;
         }
         */
+        public boolean onBlockCreate(Player player, Block blockPlaced, Block blockClicked, int itemInHand){
+            if(itemInHand == 86){
+                Random randomGenerator = new Random();
+                int randomX = randomGenerator.nextInt(1);
+                int randomY = randomGenerator.nextInt(1);
+                int randomZ = randomGenerator.nextInt(1);
+
+                int newX = blockPlaced.getX() + randomX;
+                int newY = blockPlaced.getY() + randomY;
+                int newZ = blockPlaced.getZ() + randomZ;
+                Block newBlock = new Block(86, newX, newY, newZ);
+                etc.getServer().setBlock(newBlock);
+            }
+            return false;
+        }
 
         public void onLogin(Player player) {
             // Player Message
