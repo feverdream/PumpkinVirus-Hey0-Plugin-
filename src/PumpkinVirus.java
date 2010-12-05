@@ -14,7 +14,7 @@ public class PumpkinVirus extends Plugin {
     //Name the Plugin
     private String name = "PumpkinVirus";
     //Plugin Version (a = minor change, b = moderate, +0.1 = major
-    private String version = "0.5";
+    private String version = "0.5b";
 
     public boolean currentCondition = true;
 
@@ -37,8 +37,8 @@ public class PumpkinVirus extends Plugin {
         //etc.getLoader().addListener( PluginLoader.Hook.COMPLEX_BLOCK_SEND, l, this, PluginListener.Priority.MEDIUM);
         etc.getLoader().addListener( PluginLoader.Hook.LOGIN, listener, this, PluginListener.Priority.MEDIUM);
         //etc.getLoader().addListener( PluginLoader.Hook.NUM_HOOKS, l, this, PluginListener.Priority.MEDIUM);
-        etc.getLoader().addListener( PluginLoader.Hook.PLAYER_MOVE, listener, this, PluginListener.Priority.MEDIUM);
-        etc.getLoader().addListener( PluginLoader.Hook.SERVERCOMMAND, listener, this, PluginListener.Priority.MEDIUM);
+        //etc.getLoader().addListener( PluginLoader.Hook.PLAYER_MOVE, listener, this, PluginListener.Priority.MEDIUM);
+        //etc.getLoader().addListener( PluginLoader.Hook.SERVERCOMMAND, listener, this, PluginListener.Priority.MEDIUM);
     }
 
     public void broadcast(String message) {
@@ -47,30 +47,29 @@ public class PumpkinVirus extends Plugin {
         }
     }
 
-    public void pumpkinvirus() {
-        if(previousCondition == true){
-            currentCondition = false;
-        }
-        else{
-            currentCondition = true;
-        }
+    public void pumpkinVirus() {
         String message = "";
-        if(currentCondition == true){
+
+        if(previousCondition == true){
+            currentCondition = true;
             message = "VIRUS ENABLED";
         }
         else{
+            currentCondition = false;
             message = "VIRUS DISABLED";
         }
+
         broadcast(message);
         previousCondition = currentCondition;
     }
 
     public void pumpkinSpread(Block blockPlaced){
-        while(currentCondition == true){
+        if(currentCondition == true){
             Random randomGenerator = new Random();
             int randX = randomGenerator.nextInt(2);
             int randY = randomGenerator.nextInt(2);
             int randZ = randomGenerator.nextInt(2);
+
             int newX = 0;
             int newY = 0;
             int newZ = 0;
@@ -98,21 +97,6 @@ public class PumpkinVirus extends Plugin {
             pumpkinSpread(newBlock);
         }
     }
-/*
-    public void checkForSpace(Block blockPlaced){
-    }
-
-    public void startSpread(Block pumpkinBlock){
-        //Creates a Jacko (92) block
-        
-
-        Change the block type to fire and add 1 to the Y coordinate to put it above the TNT:
-        yourBlock.setType(51);
-        int newY = yourBlock.getY() + 1;
-        yourBlock.setY(newY);
-        etc.getServer().setBlock(yourBlock);
-    }
-*/
 
     public class Listener extends PluginListener {
         PumpkinVirus p;
@@ -122,9 +106,27 @@ public class PumpkinVirus extends Plugin {
             p = plugin;
         }
 
-        // remove the /* and */ from any function you want to use
-        // make sure you add them to the listener above as well!
+        public boolean onBlockCreate(Player player, Block blockPlaced, Block blockClicked, int itemInHand){
+            if(itemInHand == 86){
+                pumpkinSpread(blockPlaced);
+            }
+            return false;
+        }
 
+        public void onLogin(Player player) {
+            // Player Message
+            player.sendMessage(Colors.Yellow + "Currently running plugin: " + p.name + " v" + p.version + "!");
+
+            // Global Message
+            p.broadcast(Colors.Green + player.getName() + " has joined the server!");
+        }
+
+        public boolean onCommand(Player player, String[] split) {
+            if (split[0].equalsIgnoreCase("/pumpkinvirus") && player.canUseCommand("/pumpkinvirus")) {
+               pumpkinVirus();
+            }
+            return false;
+        }
         /*
         public void onPlayerMove(Player player, Location from, Location to) {
         }
@@ -141,39 +143,6 @@ public class PumpkinVirus extends Plugin {
         return null;
         }
         */
-
-        public boolean onBlockCreate(Player player, Block blockPlaced, Block blockClicked, int itemInHand){
-            if(itemInHand == 86){
-                pumpkinSpread(blockPlaced);
-            }
-            return false;
-        }
-
-        public void onLogin(Player player) {
-            // Player Message
-            player.sendMessage(Colors.Yellow + "Currently running plugin: " + p.name + " v" + p.version + "!");
-
-            // Global Message
-            p.broadcast(Colors.Green + player.getName() + " has joined the server! Wooo~");
-        }
-
-        /*
-        public void onDisconnect(Player player) {
-        }
-        */
-
-        /*
-        public boolean onChat(Player player, String message) {
-        return false;
-        }
-        */
-
-        public boolean onCommand(Player player, String[] split) {
-            if (split[0].equals("/pumpkinvirus") && player.canUseCommand("/pumpkinvirus")) {
-               pumpkinvirus();
-            }
-            return false;
-        }
 
         /*
         public boolean onConsoleCommand(String[] split) {
