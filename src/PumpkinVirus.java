@@ -14,7 +14,7 @@ public class PumpkinVirus extends Plugin {
     //Name the Plugin
     private String name = "PumpkinVirus";
     //Plugin Version (a = minor change, b = moderate, +0.1 = major
-    private String version = "0.4";
+    private String version = "0.4a";
 
     //Figure out what this does?
     public void enable() {
@@ -89,9 +89,9 @@ public class PumpkinVirus extends Plugin {
         public boolean onBlockCreate(Player player, Block blockPlaced, Block blockClicked, int itemInHand){
             if(itemInHand == 86){
                 Random randomGenerator = new Random();
-                int randomX = randomGenerator.nextInt(1);
-                int randomY = randomGenerator.nextInt(1);
-                int randomZ = randomGenerator.nextInt(1);
+                int randomX = randomGenerator.nextInt(2);
+                int randomY = randomGenerator.nextInt(2);
+                int randomZ = randomGenerator.nextInt(2);
 
                 int newX = blockPlaced.getX() + randomX;
                 int newY = blockPlaced.getY() + randomY;
