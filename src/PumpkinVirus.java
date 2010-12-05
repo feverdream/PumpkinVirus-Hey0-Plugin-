@@ -13,8 +13,8 @@ public class PumpkinVirus extends Plugin {
     protected static final Logger log = Logger.getLogger("Minecraft");
     //Name the Plugin
     private String name = "PumpkinVirus";
-    //Plugin Version (a = minor change, b = moderate, +0.1 = major
-    private String version = "0.5b";
+    //Plugin Version (+1 = major, +0.1 = moderate, +0.0.1 = minor)
+    private String version = "0.5.1";
 
     public boolean currentCondition = true;
 
@@ -50,7 +50,7 @@ public class PumpkinVirus extends Plugin {
     public void pumpkinVirus() {
         String message = "";
 
-        if(previousCondition == true){
+        if(previousCondition == false){
             currentCondition = true;
             message = "VIRUS ENABLED";
         }
