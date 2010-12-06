@@ -10,7 +10,7 @@ public class PumpkinVirus extends Plugin {
     private Listener listener = new Listener(this);
     protected static final Logger log = Logger.getLogger("Minecraft");
     private String name = "PumpkinVirus";
-    private String version = "0.6.3";
+    private String version = "0.6.4";
     public boolean readyToGo = true;
     public boolean currentCondition = true;
     public boolean previousCondition = true;
@@ -39,7 +39,7 @@ public class PumpkinVirus extends Plugin {
         }
     }
 
-    public void pumpkinVirus() {
+    public void pumpkinToggle() {
         String message = "";
 
         if(previousCondition == false){
@@ -136,7 +136,8 @@ public class PumpkinVirus extends Plugin {
 
         public boolean onCommand(Player player, String[] split) {
             if (split[0].equalsIgnoreCase("/pumpkinvirus") && player.canUseCommand("/pumpkinvirus")) {
-               pumpkinVirus();
+               pumpkinToggle();
+               return true;
             }
             return false;
         }
