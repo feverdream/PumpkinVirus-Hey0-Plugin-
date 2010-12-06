@@ -10,7 +10,7 @@ public class PumpkinVirus extends Plugin {
     private Listener listener = new Listener(this);
     protected static final Logger log = Logger.getLogger("Minecraft");
     private String name = "PumpkinVirus";
-    private String version = "0.6.2";
+    private String version = "0.6.3";
     public boolean readyToGo = true;
     public boolean currentCondition = true;
     public boolean previousCondition = true;
@@ -58,7 +58,7 @@ public class PumpkinVirus extends Plugin {
     public void pumpkinSpread(Block blockPlaced){
         while(currentCondition == true){
             Random randomGenerator = new Random();
-            int chance = randomGenerator.nextInt(1000);
+            int chance = randomGenerator.nextInt(100);
 
             if(chance == 76){
                 int randX = randomGenerator.nextInt(2); // initialize first element
@@ -93,9 +93,13 @@ public class PumpkinVirus extends Plugin {
                 }
                 int type = etc.getServer().getBlockIdAt(newX, newY, newZ);
                 if(type == 0){
-                    Block newBlock = new Block(86, newX, newY, newZ);
-                    etc.getServer().setBlock(newBlock);
-                    pumpkinSpread(newBlock);
+                    int underY = newY - 3;
+                    int typeUnder = etc.getServer().getBlockIdAt(newX, underY, newZ);
+                    if(typeUnder != 0){
+                        Block newBlock = new Block(86, newX, newY, newZ);
+                        etc.getServer().setBlock(newBlock);
+                        pumpkinSpread(newBlock);
+                    }
                 }
                 else{
                     pumpkinSpread(blockPlaced);
