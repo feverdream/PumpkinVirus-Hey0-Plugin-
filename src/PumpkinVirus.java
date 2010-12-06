@@ -10,12 +10,10 @@ public class PumpkinVirus extends Plugin {
     private Listener listener = new Listener(this);
     protected static final Logger log = Logger.getLogger("Minecraft");
     private String name = "PumpkinVirus";
-    private String version = "0.6";
+    private String version = "0.6.1";
     public boolean readyToGo = true;
     public boolean currentCondition = true;
     public boolean previousCondition = true;
-    int countdown = 1000;
-    int remTime = countdown;
 
     public void enable() {
     }
@@ -59,48 +57,47 @@ public class PumpkinVirus extends Plugin {
 
     public void pumpkinSpread(Block blockPlaced){
         while(currentCondition == true){
-            if(countdown == 0){
                 Random randomGenerator = new Random();
 
-                int randX = randomGenerator.nextInt(2); // initialize first element
-                int randY = randomGenerator.nextInt(2); // initialize second element
-                int randZ = randomGenerator.nextInt(2); // etc.
+                int chance = randomGenerator.nextInt(100);
+                if(chance == 76){
+                    int randX = randomGenerator.nextInt(2); // initialize first element
+                    int randY = randomGenerator.nextInt(2); // initialize second element
+                    int randZ = randomGenerator.nextInt(2); // etc.
 
-                int newX;
-                int newY;
-                int newZ;
+                    int newX;
+                    int newY;
+                    int newZ;
 
-                boolean dirX = randomGenerator.nextBoolean();
-                boolean dirY = randomGenerator.nextBoolean();
-                boolean dirZ = randomGenerator.nextBoolean();
+                    boolean dirX = randomGenerator.nextBoolean();
+                    boolean dirY = randomGenerator.nextBoolean();
+                    boolean dirZ = randomGenerator.nextBoolean();
 
-                if(dirX == true){
-                    newX = blockPlaced.getX() + randX;
-                }
-                else{
-                    newX = blockPlaced.getX() - randX;
-                }
-                if(dirY == true){
-                    newY = blockPlaced.getY() + randY;
-                }
-                else{
-                    newY = blockPlaced.getY() - randY;
-                }
-                if(dirZ == true){
-                    newZ = blockPlaced.getZ() + randZ;
-                }
-                else{
-                    newZ = blockPlaced.getZ() - randZ;
-                }
-                Block newBlock = new Block(86, newX, newY, newZ);
-                etc.getServer().setBlock(newBlock);
-                countdown = 1000;
-                pumpkinSpread(newBlock);
+                    if(dirX == true){
+                        newX = blockPlaced.getX() + randX;
+                    }
+                    else{
+                        newX = blockPlaced.getX() - randX;
+                    }
+                    if(dirY == true){
+                        newY = blockPlaced.getY() + randY;
+                    }
+                    else{
+                        newY = blockPlaced.getY() - randY;
+                    }
+                    if(dirZ == true){
+                        newZ = blockPlaced.getZ() + randZ;
+                    }
+                    else{
+                        newZ = blockPlaced.getZ() - randZ;
+                    }
+                    Block newBlock = new Block(86, newX, newY, newZ);
+                    etc.getServer().setBlock(newBlock);
+                    pumpkinSpread(newBlock);
             }
             else{
-                countdown--;
+                pumpkinSpread(blockPlaced);
             }
-            pumpkinSpread(blockPlaced);
         }
     }
 
