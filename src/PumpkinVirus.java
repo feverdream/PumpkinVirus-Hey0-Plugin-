@@ -10,7 +10,7 @@ public class PumpkinVirus extends Plugin {
     private Listener listener = new Listener(this);
     protected static final Logger log = Logger.getLogger("Minecraft");
     private String name = "PumpkinVirus";
-    private String version = "0.6.4";
+    private String version = "0.6.5";
     public boolean readyToGo = true;
     public boolean currentCondition = true;
     public boolean previousCondition = true;
@@ -58,51 +58,50 @@ public class PumpkinVirus extends Plugin {
     public void pumpkinSpread(Block blockPlaced){
         while(currentCondition == true){
             Random randomGenerator = new Random();
-            int chance = randomGenerator.nextInt(100);
+            int randX = randomGenerator.nextInt(2); // initialize first element
+            int randY = randomGenerator.nextInt(2); // initialize second element
+            int randZ = randomGenerator.nextInt(2); // etc.
 
-            if(chance == 76){
-                int randX = randomGenerator.nextInt(2); // initialize first element
-                int randY = randomGenerator.nextInt(2); // initialize second element
-                int randZ = randomGenerator.nextInt(2); // etc.
+            int newX;
+            int newY;
+            int newZ;
 
-                int newX;
-                int newY;
-                int newZ;
+            boolean dirX = randomGenerator.nextBoolean();
+            boolean dirY = randomGenerator.nextBoolean();
+            boolean dirZ = randomGenerator.nextBoolean();
 
-                boolean dirX = randomGenerator.nextBoolean();
-                boolean dirY = randomGenerator.nextBoolean();
-                boolean dirZ = randomGenerator.nextBoolean();
-
-                if(dirX == true){
-                    newX = blockPlaced.getX() + randX;
-                }
-                else{
-                    newX = blockPlaced.getX() - randX;
-                }
-                if(dirY == true){
-                    newY = blockPlaced.getY() + randY;
-                }
-                else{
-                    newY = blockPlaced.getY() - randY;
-                }
-                if(dirZ == true){
-                    newZ = blockPlaced.getZ() + randZ;
-                }
-                else{
-                    newZ = blockPlaced.getZ() - randZ;
-                }
-                int type = etc.getServer().getBlockIdAt(newX, newY, newZ);
-                if(type == 0){
-                    int underY = newY - 3;
-                    int typeUnder = etc.getServer().getBlockIdAt(newX, underY, newZ);
-                    if(typeUnder != 0){
-                        Block newBlock = new Block(86, newX, newY, newZ);
-                        etc.getServer().setBlock(newBlock);
-                        pumpkinSpread(newBlock);
+            if(dirX == true){
+                newX = blockPlaced.getX() + randX;
+            }
+            else{
+                newX = blockPlaced.getX() - randX;
+            }
+            if(dirY == true){
+                newY = blockPlaced.getY() + randY;
+            }
+            else{
+                newY = blockPlaced.getY() - randY;
+            }
+            if(dirZ == true){
+                newZ = blockPlaced.getZ() + randZ;
+            }
+            else{
+                newZ = blockPlaced.getZ() - randZ;
+            }
+            int type = etc.getServer().getBlockIdAt(newX, newY, newZ);
+            if(type == 0){
+                int underY = newY - 3;
+                int typeUnder = etc.getServer().getBlockIdAt(newX, underY, newZ);
+                if(typeUnder != 0){
+                    Block newBlock = new Block(86, newX, newY, newZ);
+                    etc.getServer().setBlock(newBlock);
+                    try{
+                        Thread.sleep(1000); // do nothing for 1000 miliseconds (1 second)
                     }
-                }
-                else{
-                    pumpkinSpread(blockPlaced);
+                    catch(InterruptedException e){
+                        e.printStackTrace();
+                    } 
+                    pumpkinSpread(newBlock);
                 }
             }
             else{
