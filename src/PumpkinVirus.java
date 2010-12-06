@@ -1,17 +1,16 @@
-import java.util.logging.Logger;
-import java.util.Random;
-import java.util.*;
-
 /**
 *
 * @author Indivisible0
 */
+import java.util.logging.Logger;
+import java.util.Random;
+import java.util.*;
+
 public class PumpkinVirus extends Plugin {
     private Listener listener = new Listener(this);
     protected static final Logger log = Logger.getLogger("Minecraft");
     private String name = "PumpkinVirus";
-    private String version = "0.6.5";
-    public boolean readyToGo = true;
+    private String version = "0.6.6";
     public boolean currentCondition = true;
     public boolean previousCondition = true;
 
@@ -25,12 +24,7 @@ public class PumpkinVirus extends Plugin {
         log.info(name + " " + version + " by Indivisible0 initialized");
         etc.getLoader().addListener( PluginLoader.Hook.BLOCK_CREATED, listener, this, PluginListener.Priority.MEDIUM);
         etc.getLoader().addListener( PluginLoader.Hook.COMMAND, listener, this, PluginListener.Priority.MEDIUM);
-        //etc.getLoader().addListener( PluginLoader.Hook.COMPLEX_BLOCK_CHANGE, l, this, PluginListener.Priority.MEDIUM);
-        //etc.getLoader().addListener( PluginLoader.Hook.COMPLEX_BLOCK_SEND, l, this, PluginListener.Priority.MEDIUM);
         etc.getLoader().addListener( PluginLoader.Hook.LOGIN, listener, this, PluginListener.Priority.MEDIUM);
-        //etc.getLoader().addListener( PluginLoader.Hook.NUM_HOOKS, l, this, PluginListener.Priority.MEDIUM);
-        //etc.getLoader().addListener( PluginLoader.Hook.PLAYER_MOVE, listener, this, PluginListener.Priority.MEDIUM);
-        //etc.getLoader().addListener( PluginLoader.Hook.SERVERCOMMAND, listener, this, PluginListener.Priority.MEDIUM);
     }
 
     public void broadcast(String message) {
@@ -55,62 +49,7 @@ public class PumpkinVirus extends Plugin {
         previousCondition = currentCondition;
     }
 
-    public void pumpkinSpread(Block blockPlaced){
-        while(currentCondition == true){
-            Random randomGenerator = new Random();
-            int randX = randomGenerator.nextInt(2); // initialize first element
-            int randY = randomGenerator.nextInt(2); // initialize second element
-            int randZ = randomGenerator.nextInt(2); // etc.
-
-            int newX;
-            int newY;
-            int newZ;
-
-            boolean dirX = randomGenerator.nextBoolean();
-            boolean dirY = randomGenerator.nextBoolean();
-            boolean dirZ = randomGenerator.nextBoolean();
-
-            if(dirX == true){
-                newX = blockPlaced.getX() + randX;
-            }
-            else{
-                newX = blockPlaced.getX() - randX;
-            }
-            if(dirY == true){
-                newY = blockPlaced.getY() + randY;
-            }
-            else{
-                newY = blockPlaced.getY() - randY;
-            }
-            if(dirZ == true){
-                newZ = blockPlaced.getZ() + randZ;
-            }
-            else{
-                newZ = blockPlaced.getZ() - randZ;
-            }
-            int type = etc.getServer().getBlockIdAt(newX, newY, newZ);
-            if(type == 0){
-                int underY = newY - 3;
-                int typeUnder = etc.getServer().getBlockIdAt(newX, underY, newZ);
-                if(typeUnder != 0){
-                    Block newBlock = new Block(86, newX, newY, newZ);
-                    etc.getServer().setBlock(newBlock);
-                    try{
-                        Thread.sleep(1000); // do nothing for 1000 miliseconds (1 second)
-                    }
-                    catch(InterruptedException e){
-                        e.printStackTrace();
-                    } 
-                    pumpkinSpread(newBlock);
-                }
-            }
-            else{
-                pumpkinSpread(blockPlaced);
-            }
-        }
-    }
-
-    public class Listener extends PluginListener {
+        public class Listener extends PluginListener {
         PumpkinVirus p;
 
         // This controls the accessability of functions / variables from the main class.
@@ -120,7 +59,8 @@ public class PumpkinVirus extends Plugin {
 
         public boolean onBlockCreate(Player player, Block blockPlaced, Block blockClicked, int itemInHand){
             if(itemInHand == 86){
-                pumpkinSpread(blockPlaced);
+                Pumpkin pumpkin = new Pumpkin();
+                pumpkin.pumpkinSpread(pumpkin,blockPlaced,currentCondition);
             }
             return false;
         }
@@ -140,77 +80,5 @@ public class PumpkinVirus extends Plugin {
             }
             return false;
         }
-        /*
-        public void onPlayerMove(Player player, Location from, Location to) {
-        }
-        */
-
-        /*
-        public boolean onTeleport(Player player, Location from, Location to) {
-        return false;
-        }
-        */
-
-        /*
-        public String onLoginChecks(String user) {
-        return null;
-        }
-        */
-
-        /*
-        public boolean onConsoleCommand(String[] split) {
-        return false;
-        }
-        */
-
-        /*
-        public void onBan(Player mod, Player player, String reason) {
-        }
-        */
-
-        /*
-        public void onIpBan(Player mod, Player player, String reason) {
-        }
-        */
-
-        /*
-        public void onKick(Player mod, Player player, String reason) {
-        }
-        */
-
-        /*
-        public boolean onBlockCreate(Player player, Block blockPlaced, Block blockClicked, int itemInHand) {
-        return false;
-        }
-        */
-
-        /*
-        public boolean onBlockDestroy(Player player, Block block) {
-        return false;
-        }
-        */
-
-        /*
-        public void onArmSwing(Player player) {
-        }
-        */
-
-        /*
-        public boolean onInventoryChange(Player player) {
-        return false;
-        }
-        */
-
-        /*
-        public boolean onComplexBlockChange(Player player, ComplexBlock block) {
-        return false;
-        }
-        */
-
-        /*
-        public boolean onSendComplexBlock(Player player, ComplexBlock block) {
-        return false;
-        }
-        */
     }
 }
