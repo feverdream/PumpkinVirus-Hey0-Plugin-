@@ -49,12 +49,15 @@ public class Pumpkin extends PumpkinVirus{
                     Pumpkin newPumpkin = new Pumpkin();
                     etc.getServer().setBlock(newPumpkinBlock);
                     try{
-                        Thread.sleep(1000); // do nothing for 1000 miliseconds (1 second)
+                        Thread.sleep(speed);
                     }
                     catch(InterruptedException e){
                         e.printStackTrace();
-                    }
+                    }                    
                     newPumpkin.pumpkinSpread(newPumpkin, newPumpkinBlock, isTrue);
+                }
+                else{
+                    pumpkinSpread(pumpkin, blockPlaced, isTrue);
                 }
             }
             else{
